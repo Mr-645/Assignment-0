@@ -1,0 +1,14 @@
+#include <Arduino.h>
+
+#define potIN A0
+
+void setup(){
+    Serial.begin(256000);
+    analogReadResolution(12);
+}
+
+void loop(){
+    Serial.println(analogRead(potIN));
+    Serial.flush();
+    delay(1);
+}
