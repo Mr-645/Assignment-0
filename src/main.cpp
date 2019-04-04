@@ -40,7 +40,7 @@ void setup() {
   InitTimersSafe(); //Initialise PWM function
   bool success = SetPinFrequencySafe(signal_out_pin, frequency); //Set PWM frequency
 
-  //Run the dispValFunc function when the pin is high
+  //Run the dispValFunc function when the pin is goes low
   attachInterrupt(digitalPinToInterrupt(interruptPin), dispValFunc, FALLING);
 }
 
