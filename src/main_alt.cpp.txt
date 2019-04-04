@@ -1,0 +1,24 @@
+#include <Arduino.h>
+#include <PWM.h>
+
+double sensorPin = A0;    // select the input pin for the potentiometer
+int signal_out_pin = 9; //select the output pin for the PWM signal
+
+int32_t frequency = 1000; //PWM frequency
+double outPWM = 250; //PWM pulse width
+
+
+void setup() {
+  InitTimersSafe(); //Initialise PWM function
+  bool success = SetPinFrequencySafe(signal_out_pin, frequency); //Set PWM frequency
+  pinMode(signal_out_pin, OUTPUT);
+}
+
+void loop() {
+  frequency = map(analogRead(sensorPin), 0, 904, 10, 5000);
+
+  SetPinFrequencySafe(signal_out_pin, frequency); //Live set/edit PWM frequency
+  //pwmWriteHR(signal_out_pin, outPWM); //Set PWM pulse width
+  //SetPinFrequencySafe(signal_out_pin, 100); //Live set/edit PWM frequency
+  pwmWriteHR(signal_out_pin, 50*655); //Set PWM pulse width
+}

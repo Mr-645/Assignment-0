@@ -1,0 +1,70 @@
+//PRE-COMPILER DIRECTIVES
+#include <Arduino.h>
+#include "ledFunctions.h"
+
+
+//PIN DECLARATION
+#define potIN A0  //The pin number of the potentiometer
+#define ledPin LED_BUILTIN  //The pin number of the LED
+#define interruptPin 2 //The push button pin
+
+
+//VARIABLE DECLARATION
+int ledState = LOW; //"ledState" is used to store the LED's state
+unsigned long interval = 100;  //The interval at which to blink (Microseconds)
+int potVal = 0; //The potentiometer set value
+float dispFreq = 0.0000; //The frequency value to display
+bool dispVal = true; //Boolean to decide if values should be displayed or not
+
+
+void setup() {
+  pinMode(ledPin, OUTPUT);  //Sets the digital pin as output
+  pinMode(interruptPin, INPUT_PULLUP); //Assigns a pull up resistor to the push button
+  Serial.begin(9600); //Initialises serial comms at a baud rate of 9600
+
+  //Run the dispValFunc function when the pin is high
+  attachInterrupt(digitalPinToInterrupt(interruptPin), dispValFunc, FALLING);
+}
+
+
+void loop() {
+  // check to see if it's time to blink the LED; that is, if the difference
+  // between the current time and last time you blinked the LED is bigger than
+  // the interval at which you want to blink the LED.
+  unsigned long currentMicros = micros();
+  unsigned long previousMicros = 0; //This will store the last time the LED was updated
+
+  potVal = analogRead(potIN); //Assigns the potentiometer position to a variable
+  // interval = potValToTime(potVal); //Performs function to interpolate Pot position to interval time
+  interval = potVal;
+  // dispFreq = 1.0000/(float(interval)/100); //It's 10^6 because of Microseconds
+
+  if (dispVal == true) {
+    //If dispVal is true, print frequency value to serial monitor
+    // Serial.print(dispFreq, 4);
+    // Serial.print(",");
+    Serial.print(interval);
+    Serial.println(",");
+    Serial.flush();
+    dispVal = true;
+    }
+
+  if (currentMicros - previousMicros >= interval) {
+    previousMicros = currentMicros; //Saves the last time you blinked the LED
+    // toggleLED(ledPin); //Perform function of toggling LED
+    int ledState = digitalRead(ledPin);
+    // if the LED is off turn it on and vice-versa:
+    if (ledState == LOW) {
+      ledState = HIGH;
+    } else {
+      ledState = LOW;
+  }
+
+  // set the LED with the ledState of the variable:
+  digitalWrite(ledPin, ledState);
+  }
+}
+
+void dispValFunc(){
+  dispVal = true; //Set the boolen dispVal to true
+}

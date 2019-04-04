@@ -5,7 +5,7 @@
 #include <Arduino.h>
 
 //Function prototype
-bool toggleLED(uint8_t ledPin);
-bool potValToTime(uint16_t potVal);
+bool toggleLED(int ledPin);
+void dispValFunc();
 
 #endif
