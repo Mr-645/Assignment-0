@@ -11,22 +11,22 @@
 
 
 //VARIABLE DECLARATION
-uint8_t ledState = LOW; //"ledState" is used to store the LED's state
-unsigned long debounceDelay = 100;  //Debounce time - Switch ignore time
-unsigned long lastDebounceTime = 0; //This will store the last time the LED was updated
+uint8_t ledState = LOW; //"ledState" is used to store the inbuilt LED's state
+unsigned long debounceDelay = 100;  //Debounce time interval (button ignore time)
+unsigned long lastDebounceTime = 0; //This will store the last time the button was pressed
 bool allowDispVal = true; //Boolean to decide to allow display code execution
-int32_t frequency = 1000; //PWM frequency
-double outPWM = 50*655; //PWM duty cycle set to 50%
+int32_t frequency = 1000; //Initialise the PWM frequency
+double outPWM = 50*655; //Initialise (in this case, set) the PWM duty cycle set to 50%
 
 
 //Function to give clearance for serial output
 void dispValFunc(){
   if (allowDispVal == true) {
-    //If allowDispVal is true, print frequency value to serial monitor
-    Serial.print(frequency);
-    Serial.println(" Hz");
-    Serial.flush();
-    lastDebounceTime = millis(); //Reset last debounce time
+    //If allowDispVal is true, print the following to the serial monitor
+    Serial.print(frequency); //Start the line with the number for the frequency variable
+    Serial.println(" Hz"); //End the line with the suffix "Hz" following a whitespace
+    Serial.flush(); //Force the send buffer to be cleared
+    lastDebounceTime = millis(); //Reset the value of the last button press (or bounce) time
   }
 }
 
@@ -52,13 +52,14 @@ void loop() {
   SetPinFrequencySafe(signal_out_pin, frequency); //Live set/edit PWM frequency
   pwmWriteHR(signal_out_pin, outPWM); //Set PWM duty cycle
 
+  //Compare the difference between the last timing and the current time to an interval
   if (millis() - lastDebounceTime >= debounceDelay){
-    allowDispVal = true;
-    digitalWrite(ledPin, LOW);
+    allowDispVal = true; //Set the serial display boolean to true
+    digitalWrite(ledPin, LOW); //Turn the inbuilt led off
   }
   else
   {
-    allowDispVal = false;
-    digitalWrite(ledPin, HIGH);
+    allowDispVal = false; //Set the serial display boolean to false
+    digitalWrite(ledPin, HIGH); //Turn the inbuilt led on
   }
 }
