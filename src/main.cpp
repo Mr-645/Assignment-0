@@ -12,11 +12,11 @@
 
 //VARIABLE DECLARATION
 uint8_t ledState = LOW; //"ledState" is used to store the inbuilt LED's state
-unsigned long debounceDelay = 100;  //Debounce time interval (button ignore time)
-unsigned long lastDebounceTime = 0; //This will store the last time the button was pressed
+uint32_t debounceDelay = 100;  //Debounce time interval (button ignore time)
+uint32_t lastDebounceTime = 0; //This will store the last time the button was pressed
 bool allowDispVal = true; //Boolean to decide to allow display code execution
-int16_t frequency = 1000; //Initialise the PWM frequency
-double outPWM = 50*655; //Initialise (in this case, set) the PWM duty cycle set to 50%
+uint16_t frequency = 1000; //Initialise the PWM frequency
+uint64_t outPWM = 50*655; //Initialise (in this case, set) the PWM duty cycle set to 50%
 
 
 //Function to give clearance for serial output
@@ -47,7 +47,7 @@ void setup() {
 
 void loop() {
   //Assigns the 10-bit potentiometer position to a variable
-  frequency = map(analogRead(potInVal), 0, 903, 10, 5000);
+  frequency = map(analogRead(potInVal), 0, 926, 10, 5000);
 
   SetPinFrequencySafe(signal_out_pin, frequency); //Live set/edit PWM frequency
   pwmWriteHR(signal_out_pin, outPWM); //Set PWM duty cycle
