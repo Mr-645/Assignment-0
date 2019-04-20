@@ -38,7 +38,7 @@ void setup() {
   Serial.begin(9600); //Initialises serial comms at a baud rate of 9600
 
   InitTimersSafe(); //Initialise PWM function
-  /*bool success = */SetPinFrequencySafe(signal_out_pin, frequency); //Set PWM frequency
+  SetPinFrequencySafe(signal_out_pin, frequency); //Set PWM frequency
 
   //Run the dispValFunc function when the pin is goes low
   attachInterrupt(digitalPinToInterrupt(interruptPin), dispValFunc, FALLING);
