@@ -12,7 +12,7 @@
 
 //VARIABLE DECLARATION
 uint8_t ledState = LOW; //"ledState" is used to store the inbuilt LED's state
-uint32_t debounceDelay = 100;  //Debounce time interval (button ignore time)
+uint32_t debounceDelay = 500;  //Debounce time interval (button ignore time)
 uint32_t lastDebounceTime = 0; //This will store the last time the button was pressed
 bool allowDispVal = true; //Boolean to decide to allow display code execution
 uint16_t frequency = 1000; //Initialise the PWM frequency
